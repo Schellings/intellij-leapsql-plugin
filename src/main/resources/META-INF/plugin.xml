@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.linkkou.plugin.intellij.assistant.mybaitslog</id>
     <name>MybatisLog</name>
-    <vendor email="chinacclk@gmail.com" url="https://github.com/Link-Kou/intellij-mybaitslog">linkkou</vendor>
+    <vendor email="xielin@bingosoft.net" url="https://github.com:Schellings/intellij-leapsql-log">Schellings</vendor>
 
     <!-- 插件版本 -->
     <version>1.0.3</version>
@@ -11,9 +11,9 @@
     <description><![CDATA[
       <ul>
         <h3>English:</h3>
-        <li>Copy with mybatis-log-plugin</li>
+        <li>restore with leap-sql-log-plugin</li>
         <h3>中文：</h3>
-        <li>拷贝 mybatis-log-plugin</li>
+        <li>复原 leap-sql-log-plugin</li>
       </ul>
     ]]></description>
 
@@ -21,8 +21,8 @@
     <change-notes><![CDATA[
       <ul>
         <p>1.0.0</p>
-        <li> 1. 修正并运行 mybatis-log-plugin </li>
-        <li> 1. Fix and run mybatis-log-plugin </li>
+        <li> 1. 修正并修改 mybatis-log-plugin，支持解析leap sql</li>
+        <li> 1. Fix and run mybatis-log-plugin,support restore with leap sql </li>
       </ul>
     ]]></change-notes>
 
@@ -37,7 +37,7 @@
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
         <consoleFilterProvider implementation="com.plugins.mybaitslog.MyBatisLogProvider"/>
-        <toolWindow id="MyBatis Log" secondary="true" icon="/icons/mybatis.png" anchor="bottom"
+        <toolWindow id="Leap Log"  icon="/icons/mybatis.png" secondary="true"  anchor="bottom"
                     factoryClass="com.plugins.mybaitslog.MyBatisLogToolWindow"/>
     </extensions>
 

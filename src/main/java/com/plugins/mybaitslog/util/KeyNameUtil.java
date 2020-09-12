@@ -8,8 +8,8 @@ package com.plugins.mybaitslog.util;
  */
 public class KeyNameUtil {
     public static final String PROJECT_ID = "MyBatisLogPlugin";
-    public static final String PREPARING = "Preparing:";
-    public static final String PARAMETERS = "Parameters:";
+    public static final String PREPARING = "SQL  :";
+    public static final String PARAMETERS = "ARGS : ";
     public static final String LINE = " ";
     /**
      * 无法格式输出

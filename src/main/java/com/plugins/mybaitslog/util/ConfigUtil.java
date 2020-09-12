@@ -21,7 +21,7 @@ public class ConfigUtil {
      */
     public static void setShowMyBatisLog(Project project) {
         //查看配置文件 plugin.xml 中 toolWindow 的id
-        ToolWindow toolWindow = ToolWindowManager.getInstance(project).getToolWindow("MyBatis Log");
+        ToolWindow toolWindow = ToolWindowManager.getInstance(project).getToolWindow("Leap Log");
         if (toolWindow != null) {
             if (!toolWindow.isVisible()) {
                 toolWindow.show(() -> {

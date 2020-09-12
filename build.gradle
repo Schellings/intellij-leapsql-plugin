@@ -54,7 +54,6 @@ intellij {
     //Disables updating since-build attribute in plugin.xml
     updateSinceUntilBuild false
     downloadSources false
-    localPath '/Applications/IntelliJ IDEA.app'
 }
 
 processResources {

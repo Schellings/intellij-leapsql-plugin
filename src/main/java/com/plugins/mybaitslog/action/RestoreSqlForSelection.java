@@ -1,5 +1,6 @@
 package com.plugins.mybaitslog.action;
 
+import com.google.common.base.Strings;
 import com.intellij.execution.ui.ConsoleViewContentType;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -43,7 +44,7 @@ public class RestoreSqlForSelection extends AnAction {
         final String parameters = ConfigUtil.getParameters(project);
         if (StringUtils.isNotEmpty(selectedText)) {
             //分割每一行
-            String[] selectedRowText = selectedText.split("\n");
+            String[] selectedRowText = selectedText.split(parameters);
             if (isKeyWord(project, selectedText, selectedRowText, preparing, parameters)) {
                 setFormatSelectedText(project, selectedRowText, preparing, parameters);
             }
@@ -86,32 +87,13 @@ public class RestoreSqlForSelection extends AnAction {
      * @param parameters      关键字
      */
     private void setFormatSelectedText(Project project, String[] selectedRowText, String preparing, String parameters) {
-        String preparingLine = "";
-        String parametersLine = "";
-        for (int i = 0; i < selectedRowText.length; ++i) {
-            String currentLine = selectedRowText[i];
-            //第一个关键字
-            if (currentLine.contains(preparing)) {
-                preparingLine = currentLine;
-                continue;
-            }
-            //第一行不为空的情况下,找寻第二个关键字
-            if (!StringUtils.isEmpty(preparingLine) && currentLine.contains(parameters)) {
-                parametersLine = currentLine;
-            } else {
-                continue;
-            }
-            if (StringUtils.isNotEmpty(preparingLine) && StringUtils.isNotEmpty(parametersLine)) {
-                //SQL还原
-                String[] restoreSql = SqlProUtil.restoreSql(project, preparingLine, parametersLine);
-                PrintlnUtil.println(project, KeyNameUtil.SQL_Line + restoreSql[0], ConsoleViewContentType.USER_INPUT);
-                //高亮显示
-                PrintlnUtil.printlnSqlType(project, restoreSql[1]);
-            } else {
-                PrintlnUtil.println(project, "", ConsoleViewContentType.USER_INPUT);
-                PrintlnUtil.println(project, KeyNameUtil.SQL_NULL, ConsoleViewContentType.USER_INPUT,true);
-            }
-        }
+        String sqls = selectedRowText[0].trim().substring(selectedRowText[0].indexOf(":") + 1);
+        sqls = sqls.replace("?","%s");
+        String params = selectedRowText[1].trim();
+        params = params.replace("[","").replace("]","");
+        String[] paramsArray = params.split(",");
+        String finalSQL = String.format(sqls,paramsArray);
+        PrintlnUtil.println(project, "--- \n\n" + finalSQL + "\n\n --- \n", ConsoleViewContentType.USER_INPUT);
     }
 
 }
