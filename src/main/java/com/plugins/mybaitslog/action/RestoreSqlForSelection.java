@@ -13,6 +13,7 @@ import com.plugins.mybaitslog.util.*;
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 
@@ -67,14 +68,15 @@ public class RestoreSqlForSelection extends AnAction {
      * @param parameters      关键字
      */
     private boolean isKeyWord(Project project, String selectedText, String[] selectedRowText, String preparing, String parameters) {
-        if (StringUtils.isNotBlank(selectedText) && selectedText.contains(preparing) && selectedText.contains(parameters)) {
-            //必须大于两行,MyBatis输出有两行关键信息
-            if (selectedRowText.length >= 2) {
-                return true;
-            }
+        if (selectedRowText.length >= 2) {
+            return true;
         }
-        PrintlnUtil.println(project, "", ConsoleViewContentType.USER_INPUT);
-        PrintlnUtil.println(project, KeyNameUtil.SQL_NULL, ConsoleViewContentType.USER_INPUT,true);
+        PrintlnUtil.println(project, "解析错误", ConsoleViewContentType.ERROR_OUTPUT,true);
+        PrintlnUtil.println(project, "parameters :"+ parameters, ConsoleViewContentType.ERROR_OUTPUT,true);
+        for (int i = 0; i < selectedRowText.length; i++) {
+            PrintlnUtil.println(project," line" + i + " :"+ selectedRowText[i], ConsoleViewContentType.USER_INPUT);
+        }
+
         return false;
     }
 
@@ -87,7 +89,11 @@ public class RestoreSqlForSelection extends AnAction {
      * @param parameters      关键字
      */
     private void setFormatSelectedText(Project project, String[] selectedRowText, String preparing, String parameters) {
+
         String sqls = selectedRowText[0].trim().substring(selectedRowText[0].indexOf(":") + 1);
+        if("".equals(sqls.trim())){
+            sqls = selectedRowText[0].trim();
+        }
         sqls = sqls.replace("?","%s");
         String params = selectedRowText[1].trim();
         params = params.replace("[","").replace("]","");
