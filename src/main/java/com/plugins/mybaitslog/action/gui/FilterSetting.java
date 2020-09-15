@@ -57,8 +57,8 @@ public class FilterSetting extends JDialog {
     private void onOK(Project project) {
         String preparingText = KeyNameUtil.PREPARING;
         String parametersText = KeyNameUtil.PARAMETERS;
-        ConfigUtil.setPreparing(project, preparingText);
-        ConfigUtil.setParameters(project, parametersText);
+        ConfigUtil.setPreparing(project, this.preparingTextField.getText());
+        ConfigUtil.setParameters(project, this.parametersTextField.getText());
         ConfigUtil.setStartup(project, startupCheckBox.isSelected() ? 1 : 0);
         this.setVisible(false);
     }

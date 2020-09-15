@@ -13,6 +13,10 @@ import com.plugins.mybaitslog.util.*;
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -99,7 +103,10 @@ public class RestoreSqlForSelection extends AnAction {
         params = params.replace("[","").replace("]","");
         String[] paramsArray = params.split(",");
         String finalSQL = String.format(sqls,paramsArray);
-        PrintlnUtil.println(project, "--- \n\n" + finalSQL + "\n\n --- \n", ConsoleViewContentType.USER_INPUT);
+        PrintlnUtil.println(project, "--- \n\n" + "解析成功，已复制到剪贴板" + "\n\n --- \n", ConsoleViewContentType.USER_INPUT);
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        Transferable tText = new StringSelection(finalSQL);
+        clipboard.setContents(tText,null);
     }
 
 }
