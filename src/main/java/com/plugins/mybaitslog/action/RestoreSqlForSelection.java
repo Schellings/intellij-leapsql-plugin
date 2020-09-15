@@ -15,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.util.Arrays;
@@ -44,6 +45,21 @@ public class RestoreSqlForSelection extends AnAction {
         CaretModel caretModel = Objects.requireNonNull(e.getData(LangDataKeys.EDITOR)).getCaretModel();
         Caret currentCaret = caretModel.getCurrentCaret();
         String selectedText = currentCaret.getSelectedText();
+        if(StringUtils.isEmpty(selectedText)){
+            Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+            Transferable clipTf = clipboard.getContents(null);
+            if (clipTf != null) {
+                // 检查内容是否是文本类型
+                if (clipTf.isDataFlavorSupported(DataFlavor.stringFlavor)) {
+                    try {
+                        selectedText = (String) clipTf
+                                .getTransferData(DataFlavor.stringFlavor);
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            }
+        }
         ConfigUtil.setShowMyBatisLog(project);
         final String preparing = ConfigUtil.getPreparing(project);
         final String parameters = ConfigUtil.getParameters(project);
